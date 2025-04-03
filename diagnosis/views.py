@@ -232,6 +232,12 @@ class DiagnosisQuestionViewSet(viewsets.ModelViewSet):
                 logger.warning(f'Report {report_id} has no description or text content')
                 return Response({'error': '报告尚未添加症状描述或症状描述未处理完成'}, status=status.HTTP_400_BAD_REQUEST)
 
+            # 检查是否有问题
+            if report.has_questions:
+                logger.warning(f'Report {report_id} already has questions')
+                serializer = self.get_serializer(report.questions, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            
             # 生成问题
             questions = self.ai_service.generate_questions(report.description.text_content)
             
