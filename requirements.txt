@@ -18,3 +18,4 @@ scipy>=1.4.1
 sentencepiece
 tensorboardX
 umap-learn
+requests>=2.31.0

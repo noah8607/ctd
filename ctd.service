@@ -1,0 +1,24 @@
+[Unit]
+Description=Clinical Diagnosis Tool (CTD) Service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/workspace/ctd
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=/root/workspace/ctd/.env
+
+ExecStart=/root/workspace/ctd/venv/bin/python manage.py runserver 0.0.0.0:9004
+Restart=always
+RestartSec=3
+
+# Give the service 60 seconds to start
+TimeoutStartSec=60
+# Give the service 60 seconds to stop
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target
